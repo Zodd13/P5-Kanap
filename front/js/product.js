@@ -1,13 +1,39 @@
-const productLocation = window.location.search.split("?").join("");
-console.log(productLocation);
-let productId = [];
+(async function () {
+    const itemId = getItemId()
+    console.log(itemId)
+    const item = await getItem(itemId)
+    console.log(item)
+    hydrateItem(item)
+})()
 
-const fetchProduct = async () => {
-    await fetch(`http://localhost:3000/api/products/${productLocation}`).then((res) =>
-    res.json(),
-    ).then((promise) => {
-        console.log(promise);
+function getItemId() {
+    return new URL(location.href).searchParams.get("id")  
+}
+
+function getItem(itemId){
+    return fetch(`http://localhost:3000/api/products/${itemId}`)
+    .then(function(httpBodyResponse) {
+        return httpBodyResponse.json()
     })
-};
+    .then(function(product){
+        return product
+    })
+    .catch (function(error){
+        alert('Erreur de chargement des produits')
+    })
+}
 
-fetchProduct();
+function hydrateItem(item){
+    document.getElementsByClassName('item__img');
+    for (var i = 0; i < item.length; i += i++){
+        item[i].src = `${item.imageUrl}`;
+    }
+    document.getElementById('title').textContent = `${item.name}`
+    document.getElementById('price').textContent = `${item.price}`
+    document.getElementById('description').textContent = `${item.description}`
+    document.getElementById('colors').innerHTML += `
+    <option value="${item.colors}">${item.colors[0]}</option>
+    <option value="${item.colors}">${item.colors[1]}</option>
+    <option value="${item.colors}">${item.colors[2]}</option>
+    `
+}

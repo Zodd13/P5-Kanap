@@ -27,10 +27,9 @@ function getProducts() {
 }
 
 // fonction showProduct affiche le résultat de la requête sous forme de carte
-
 function showProduct(){
     document.getElementById('items').innerHTML += `
-    <a href="./product.html?id=42">
+    <a href="./product.html?id=${product._id}">
             <article>
               <img src="${product.imageUrl}" alt="${product.altTxt}">
               <h3 class="productName">${product.name}</h3>
