@@ -1,8 +1,28 @@
+const dataApi = fetch("http://localhost:3000/api/products");
+
+dataApi.then(async (responseData) => {
+    console.log(responseData);
+
+    const response = await responseData.json();
+    console.log(response);
+
+    try{
+        const imageUrl = response[0].imageUrl
+        const id = response[0]._id
+        const itemImage = document.querySelectorAll("item__img")
+        console.log(itemImage)
+        let colors = [colorsItem]
+        console.log(colors)
+    }catch (err){
+
+    }
+});
+
 (async function () {
     const itemId = getItemId()
-    console.log(itemId)
+
     const item = await getItem(itemId)
-    console.log(item)
+
     hydrateItem(item)
 })()
 
@@ -24,16 +44,17 @@ function getItem(itemId){
 }
 
 function hydrateItem(item){
-    document.getElementsByClassName('item__img');
-    for (var i = 0; i < item.length; i += i++){
-        item[i].src = `${item.imageUrl}`;
-    }
+
+    
+    document.getElementById('item__img').innerHTML = `<img src="${item.imageUrl}" alt="Photographie d'un canapé">`
     document.getElementById('title').textContent = `${item.name}`
     document.getElementById('price').textContent = `${item.price}`
     document.getElementById('description').textContent = `${item.description}`
-    document.getElementById('colors').innerHTML += `
-    <option value="${item.colors}">${item.colors[0]}</option>
-    <option value="${item.colors}">${item.colors[1]}</option>
-    <option value="${item.colors}">${item.colors[2]}</option>
-    `
-}
+    let select = document.getElementById('colors')
+    item.colors.forEach(color => {
+        let createOption = document.createElement('option');
+        select.appendChild(createOption)
+        createOption.innerHTML = `${color}`;
+        createOption.value =`${color}`;
+    });
+};
