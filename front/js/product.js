@@ -1,30 +1,11 @@
-const dataApi = fetch("http://localhost:3000/api/products");
 
-dataApi.then(async (responseData) => {
-    console.log(responseData);
 
-    const response = await responseData.json();
-    console.log(response);
-
-    try{
-        const imageUrl = response[0].imageUrl
-        const id = response[0]._id
-        const itemImage = document.querySelectorAll("item__img")
-        console.log(itemImage)
-        let colors = [colorsItem]
-        console.log(colors)
-    }catch (err){
-
-    }
-});
-
+// déclaration fonction async + const itemId qui retourne les différentes ID
 (async function () {
-    const itemId = getItemId()
-
-    const item = await getItem(itemId)
-
-    hydrateItem(item)
-})()
+    const itemId = getItemId();
+    const item = await getItem(itemId);
+    hydrateItem(item);
+})();
 
 function getItemId() {
     return new URL(location.href).searchParams.get("id")  
@@ -43,10 +24,9 @@ function getItem(itemId){
     })
 }
 
-function hydrateItem(item){
-
-    
-    document.getElementById('item__img').innerHTML = `<img src="${item.imageUrl}" alt="Photographie d'un canapé">`
+function hydrateItem(item){  
+    document.getElementsByTagName('title')[0].innerHTML = `${item.name}`
+    document.getElementsByClassName('item__img')[0].innerHTML = `<img src="${item.imageUrl}" alt="${item.altTxt}">`
     document.getElementById('title').textContent = `${item.name}`
     document.getElementById('price').textContent = `${item.price}`
     document.getElementById('description').textContent = `${item.description}`
