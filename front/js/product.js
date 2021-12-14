@@ -16,6 +16,9 @@
         // Les données de l'objet JS sont stockées dans la constante itemProduct
 
         const itemProduct = {
+            textAlternatif : item.altTxt,
+            idDuProduit : item._id,
+            imageDuProduit : item.imageUrl,
             nomDuProduit : item.name,
             couleurDuProduit : colors.value,
             descriptionDuProduit : item.description,
