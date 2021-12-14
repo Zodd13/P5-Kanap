@@ -1,4 +1,5 @@
-// Fonction main contenant le code de base
+// Appel de la fonction main contenant le code de base
+
 main ()
 
 // fonction contenant nos articles
