@@ -10,8 +10,12 @@ if(localStorageProduct === null){
 }else{
   // Sinon on créer une variable fullCart contenant un tableau vide et une boucle for.
     let fullCart = [];
+    let totalCart = 0;
+    let totalFullCart = 0;
     // tant que i est plus petit que localStorageProduct.length on incrémente
     for(i = 0; i < localStorageProduct.length; i++){
+    totalFullCart += parseInt (localStorageProduct[i].nombreDeProduit,10)
+    totalCart += localStorageProduct[i].nombreDeProduit*localStorageProduct[i].prixDuProduit
     fullCart = fullCart + `
     <article class="cart__item" data-id=${localStorageProduct[i].idDuProduit} data-color="${localStorageProduct[i].couleurDuProduit}">
                 <div class="cart__item__img">
@@ -41,4 +45,8 @@ if(localStorageProduct === null){
     if(i===localStorageProduct.length){
     getCartItem.innerHTML = fullCart
     }
+    const targetPrice = document.getElementById('totalPrice')
+    const targetQuantity = document.getElementById('totalQuantity')
+    targetPrice.innerHTML = totalCart
+    targetQuantity.innerHTML = totalFullCart
 }
