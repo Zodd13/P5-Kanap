@@ -1,15 +1,17 @@
-// récupère les données du local storage 
+// localStorageProduct récupère les données du local storage
 let localStorageProduct = JSON.parse(localStorage.getItem("product"));
 
-// cible la section cart__items dans la page cart.html
+// getCartItem cible cart__items dans le html
 const getCartItem = document.getElementById('cart__items');
 
+// SI données dans local storage strictement égal à nul alors on affiche que le panier est vide
 if(localStorageProduct === null){
     document.querySelector("h1").innerHTML = `Votre panier est vide`
 }else{
+  // Sinon on créer une variable fullCart contenant un tableau vide et une boucle for.
     let fullCart = [];
+    // tant que i est plus petit que localStorageProduct.length on incrémente
     for(i = 0; i < localStorageProduct.length; i++){
-
     fullCart = fullCart + `
     <article class="cart__item" data-id=${localStorageProduct[i].idDuProduit} data-color="${localStorageProduct[i].couleurDuProduit}">
                 <div class="cart__item__img">
@@ -35,6 +37,7 @@ if(localStorageProduct === null){
               </article>
     `;
     }
+    // si i strictement égal à localStorageProduct.length on affiche la page html
     if(i===localStorageProduct.length){
     getCartItem.innerHTML = fullCart
     }

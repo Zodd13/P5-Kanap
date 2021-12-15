@@ -4,7 +4,7 @@
 (async function () {
     const itemId = getItemId();
     const item = await getItem(itemId);
-    hydrateItem(item);
+    showItems(item);
     const targetButton = document.getElementById('addToCart');
     const targetQuantity = document.getElementById('quantity');
 
@@ -47,7 +47,7 @@
         const storageProduct = () =>{
             // push les données dans le tableau
             localStorageProduct.push(itemProduct)
-            // localStorage.setItem transforme et envoi les données dans la key Product du localStorage
+            // localStorage.setItem transforme en objet JS et envoi les données dans la key Product du localStorage
             localStorage.setItem("product", JSON.stringify(localStorageProduct));
         }
 
@@ -79,9 +79,9 @@ function getItem(itemId){
     })
 }
 
-// la fonction hydrateItem ajoute les éléments HTML dynamiquement
+// la fonction showItems ajoute les éléments HTML dynamiquement
 
-function hydrateItem(item){  
+function showItems(item){  
     document.getElementsByTagName('title')[0].innerHTML = `${item.name}`
     document.getElementsByClassName('item__img')[0].innerHTML = `<img src="${item.imageUrl}" alt="${item.altTxt}">`
     document.getElementById('title').textContent = `${item.name}`
