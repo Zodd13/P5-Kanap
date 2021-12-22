@@ -4,6 +4,7 @@ let localStorageProduct = JSON.parse(localStorage.getItem("product"));
 // getCartItem cible cart__items dans le html
 const getCartItem = document.getElementById('cart__items');
 
+
 function addProductToCart() {
   let fullCart = [];
   let totalCart = 0;
@@ -49,16 +50,25 @@ function addProductToCart() {
 
 addProductToCart ();
 
-function listenDeleteButton(params) {
-  const deleteButton = document.querySelectorAll('.deleteItem')
-  for(i = 0; i < deleteButton.length; i++){
-    deleteButton[i].addEventListener('click', function (params) {
-      console.log('cliqué')
-      let idDuProduitSuppression = localStorageProduct[i].idDuProduit
-      localStorageProduct = localStorageProduct.filter (el => el.idDuProduit == idDuProduitSuppression)
-      console.log(localStorageProduct)
-    })
+const deleteButton = document.querySelectorAll('.cart__item__content__settings__delete > .deleteItem');
+console.log(deleteButton);
+
+deleteButton.forEach(deleteItem => {
+  deleteItem.addEventListener('click', () => {
+    console.log("test")
+  })
+})
+
+function removeItem(nomDuProduit, nombreDeProduit = 0) {
+  for(let i = 0; i < localStorageProduct.length; i += 1){
+    if (localStorageProduct[i].nomDuProduit === nomDuProduit){
+      if (nombreDeProduit > 0){
+        localStorageProduct[i].nombreDeProduit-= nomDuProduit
+      }
+      if (localStorageProduct.nombreDeProduit < 1 || nombreDeProduit === 0){
+        localStorageProduct.splice(i,1)
+      }
+      return
+    }
   }
 }
-
-listenDeleteButton();
