@@ -50,25 +50,30 @@ function addProductToCart() {
 
 addProductToCart ();
 
-const deleteButton = document.querySelectorAll('.cart__item__content__settings__delete > .deleteItem');
-console.log(deleteButton);
 
-deleteButton.forEach(deleteItem => {
-  deleteItem.addEventListener('click', () => {
-    console.log("test")
-  })
-})
+function deleteItemProduct(){
+  const deleteButton = document.querySelectorAll('.cart__item__content__settings__delete > .deleteItem');
+  for (let k = 0; k < localStorageProduct.length; k ++){
+    deleteButton[k].addEventListener('click', (e) => {
+      e.preventDefault();
+      let supprimerId = localStorageProduct[k].idDuProduit;
+      let supprimerCouleur = localStorageProduct[k].couleurDuProduit;
 
-function removeItem(nomDuProduit, nombreDeProduit = 0) {
-  for(let i = 0; i < localStorageProduct.length; i += 1){
-    if (localStorageProduct[i].nomDuProduit === nomDuProduit){
-      if (nombreDeProduit > 0){
-        localStorageProduct[i].nombreDeProduit-= nomDuProduit
-      }
-      if (localStorageProduct.nombreDeProduit < 1 || nombreDeProduit === 0){
-        localStorageProduct.splice(i,1)
-      }
-      return
-    }
+      localStorageProduct = localStorageProduct.filter(el => el.idDuProduit !== supprimerId || el.couleurDuProduit !== supprimerCouleur )
+      
+      localStorage.setItem("product",JSON.stringify(localStorageProduct));
+      
+      alert('Cette élement a bien été supprimer du panier');
+      location.reload();
+    })
   }
+}
+
+deleteItemProduct();
+
+function changeQuantity (){
+  const changeButtonQty = document.getElementsByName('.itemQuantity')
+  changeButtonQty.addEventListener('click', function(){
+    console.log('salut')
+  })
 }
