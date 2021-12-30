@@ -108,3 +108,17 @@ function changeQty (){
 };
 
 changeQty();
+
+// Bouton formulaire, fonction au clique pour récupérer les donnés du formulaire 
+
+let  confirmBtnForm = document.getElementById("order");
+console.log (confirmBtnForm);
+
+
+confirmBtnForm.addEventListener('click', () => {
+  let firstName = document.querySelectorAll("input[name = 'firstName']");
+  // stocker les données dans le local storage
+  localStorage.setItem("firstName", document.querySelector("#firstName").value);
+  console.log(document.querySelector("#firstNames").value);
+});
+
