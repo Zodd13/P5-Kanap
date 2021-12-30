@@ -117,8 +117,24 @@ console.log (confirmBtnForm);
 
 confirmBtnForm.addEventListener('click', () => {
   let firstName = document.querySelectorAll("input[name = 'firstName']");
+  let lastName =  document.querySelectorAll("input[lastName = 'lastName']");
+  let address = document.querySelectorAll("input[address = 'address']");
+  let city = document.querySelectorAll("input[city = 'city']");
+  let email = document.querySelectorAll("input[email = 'email']");
   // stocker les données dans le local storage
   localStorage.setItem("firstName", document.querySelector("#firstName").value);
-  console.log(document.querySelector("#firstNames").value);
+  localStorage.setItem("lastName", document.querySelector("#lastName").value);
+  localStorage.setItem("address", document.querySelector("#address").value);
+  localStorage.setItem("city", document.querySelector("#city").value);
+  localStorage.setItem("email", document.querySelector("#email").value);
+
+  let contact = {
+    nom : [firstName],
+    prenom : [lastName],
+    adresse : [address],
+    ville : [city],
+    mail : [email],
+  } 
+  console.log(contact)
 });
 
