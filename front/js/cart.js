@@ -111,30 +111,109 @@ changeQty();
 
 // Bouton formulaire, fonction au clique pour récupérer les donnés du formulaire 
 
-let  confirmBtnForm = document.getElementById("order");
-console.log (confirmBtnForm);
+// let  confirmBtnForm = document.getElementById("order");
+// console.log (confirmBtnForm);
 
 
-confirmBtnForm.addEventListener('click', () => {
-  let firstName = document.querySelectorAll("input[name = 'firstName']");
-  let lastName =  document.querySelectorAll("input[lastName = 'lastName']");
-  let address = document.querySelectorAll("input[address = 'address']");
-  let city = document.querySelectorAll("input[city = 'city']");
-  let email = document.querySelectorAll("input[email = 'email']");
-  // stocker les données dans le local storage
-  localStorage.setItem("firstName", document.querySelector("#firstName").value);
-  localStorage.setItem("lastName", document.querySelector("#lastName").value);
-  localStorage.setItem("address", document.querySelector("#address").value);
-  localStorage.setItem("city", document.querySelector("#city").value);
-  localStorage.setItem("email", document.querySelector("#email").value);
+// confirmBtnForm.addEventListener('click', () => {
+//   let firstName = document.querySelectorAll("input[name = 'firstName']");
+//   let lastName =  document.querySelectorAll("input[lastName = 'lastName']");
+//   let address = document.querySelectorAll("input[address = 'address']");
+//   let city = document.querySelectorAll("input[city = 'city']");
+//   let email = document.querySelectorAll("input[email = 'email']");
+//   // stocker les données dans le local storage
+//   localStorage.setItem("firstName", document.querySelector("#firstName").value);
+//   localStorage.setItem("lastName", document.querySelector("#lastName").value);
+//   localStorage.setItem("address", document.querySelector("#address").value);
+//   localStorage.setItem("city", document.querySelector("#city").value);
+//   localStorage.setItem("email", document.querySelector("#email").value);
 
-  let contact = {
-    nom : [firstName],
-    prenom : [lastName],
-    adresse : [address],
-    ville : [city],
-    mail : [email],
-  } 
-  console.log(contact)
-});
+//   let contact = {
+//     nom : [firstName],
+//     prenom : [lastName],
+//     adresse : [address],
+//     ville : [city],
+//     mail : [email],
+//   } 
+//   console.log(contact)
+// });
 
+const form = document.querySelector('.cart__order__form');
+const prenom = document.getElementById('firstName');
+const prenomErreur = document.getElementById('firstNameErrorMsg');
+const nom = document.getElementById('lastName');
+const nomErreur = document.getElementById('lastNameErrorMsg');
+const adresse = document.getElementById('address');
+const adresseErreur = document.getElementById('addressErrorMsg');
+const ville = document.getElementById('city');
+const villeErreur = document.getElementById('cityErrorMsg')
+const mail = document.getElementById('email');
+const mailErreur = document.getElementById('emailErrorMsg')
+const msgErreur = document.querySelectorAll('.cart__order__form__question >  p')
+const emailRegex = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+const addressRegex = /^[A-Za-z0-9\s]{5,50}$/;
+const cityRegex = /^[A-Za-z]{5,50}$/
+
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  const prenomValue = prenom.value.trim();
+  const nomValue = nom.value.trim();
+  const adresseValue = adresse.value.trim();
+  const villeValue = ville.value.trim();
+  const mailValue = mail.value.trim();
+
+  function checkInput (){
+    if(mailValue.match(emailRegex)){
+      mailErreur.innerText = "";
+    }else{
+      mailErreur.innerText = "Veuillez entrer une  adresse mail valide."
+    }
+    if(adresseValue.match(addressRegex)){
+      adresseErreur.innerText="";
+    }else{
+      adresseErreur.innerText="Veuillez entrer une adresse valide."
+    }
+    if(villeValue.match(cityRegex)){
+      villeErreur.innerText = "";
+    }else{
+      villeErreur.innerText = "Veuillez entrer un nom de ville correct."
+    }
+    if(prenomValue.length < 3 || prenomValue.length > 15){
+      prenomErreur.innerText = "Le prénom doit contenir entre 3 et 15 caractères"
+    }else if (prenomValue.length >= 3){
+      prenomErreur.innerText = "";
+    }
+    if(nomValue.length < 3 || nomValue.length > 35){
+      nomErreur.innerText = "Le nom doit contenir entre 3 et 15 caractères"
+    }else if(nomValue.length >= 3){
+      nomErreur.innerText = ""
+    }
+  }
+  checkInput();
+
+  function createObjectLocalStorage () {
+    localStorage.setItem("Prénom", prenom.value);
+    localStorage.setItem("Nom", nom.value);
+    localStorage.setItem("Adresse", adresse.value);
+    localStorage.setItem("Ville", ville.value);
+    localStorage.setItem("Email", mail.value);
+
+    let contact = {
+      nom : [nom.value],
+      prenom : [prenom.value],
+      adresse : [adresse.value],
+      ville : [ville.value],
+      mail : [email.value],
+    }
+    const test = {
+      localStorageProduct,
+      contact,
+    }
+
+    console.log(test)
+
+  }
+
+  createObjectLocalStorage();
+
+})
