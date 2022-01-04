@@ -4,6 +4,10 @@ let localStorageProduct = JSON.parse(localStorage.getItem("product"));
 // getCartItem cible cart__items dans le html
 const getCartItem = document.getElementById('cart__items');
 
+const submitBtn = document.querySelector("#order");
+
+submitBtn.addEventListener("click", (e) => submitForm(e))
+
 // Fonction qui ajoute les produits dans le panier avec le HTML
 
 function addProductToCart() {
@@ -109,34 +113,8 @@ function changeQty (){
 
 changeQty();
 
-// Bouton formulaire, fonction au clique pour récupérer les donnés du formulaire 
+// Validation formulaire //
 
-// let  confirmBtnForm = document.getElementById("order");
-// console.log (confirmBtnForm);
-
-
-// confirmBtnForm.addEventListener('click', () => {
-//   let firstName = document.querySelectorAll("input[name = 'firstName']");
-//   let lastName =  document.querySelectorAll("input[lastName = 'lastName']");
-//   let address = document.querySelectorAll("input[address = 'address']");
-//   let city = document.querySelectorAll("input[city = 'city']");
-//   let email = document.querySelectorAll("input[email = 'email']");
-//   // stocker les données dans le local storage
-//   localStorage.setItem("firstName", document.querySelector("#firstName").value);
-//   localStorage.setItem("lastName", document.querySelector("#lastName").value);
-//   localStorage.setItem("address", document.querySelector("#address").value);
-//   localStorage.setItem("city", document.querySelector("#city").value);
-//   localStorage.setItem("email", document.querySelector("#email").value);
-
-//   let contact = {
-//     nom : [firstName],
-//     prenom : [lastName],
-//     adresse : [address],
-//     ville : [city],
-//     mail : [email],
-//   } 
-//   console.log(contact)
-// });
 
 const form = document.querySelector('.cart__order__form');
 const prenom = document.getElementById('firstName');
@@ -154,8 +132,9 @@ const emailRegex = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 const addressRegex = /^[A-Za-z0-9\s]{5,50}$/;
 const cityRegex = /^[A-Za-z]{5,50}$/
 
-form.addEventListener('submit', function(e){
+function submitForm (e){
   e.preventDefault();
+
   const prenomValue = prenom.value.trim();
   const nomValue = nom.value.trim();
   const adresseValue = adresse.value.trim();
@@ -188,32 +167,83 @@ form.addEventListener('submit', function(e){
     }else if(nomValue.length >= 3){
       nomErreur.innerText = ""
     }
-  }
-  checkInput();
-
-  function createObjectLocalStorage () {
-    localStorage.setItem("Prénom", prenom.value);
-    localStorage.setItem("Nom", nom.value);
-    localStorage.setItem("Adresse", adresse.value);
-    localStorage.setItem("Ville", ville.value);
-    localStorage.setItem("Email", mail.value);
-
-    let contact = {
-      nom : [nom.value],
-      prenom : [prenom.value],
-      adresse : [adresse.value],
-      ville : [ville.value],
-      mail : [email.value],
+    if(prenomValue < 1){
+      alert("Veuillez renseignez votre prenom.")
+    }if(nomValue < 1){
+      alert("Veuillez renseignez votre nom.")
+    }if(adresseValue < 1){
+      alert("Veuillez renseignez votre adresse.")
+    }if(villeValue.length < 1){
+      alert('Veuillez renseignez votre ville.')
+    }if(mailValue < 1){
+      alert('Veuillez renseignez votre adresse e-mail.')
     }
-    const test = {
-      localStorageProduct,
-      contact,
-    }
-
-    console.log(test)
-
   }
 
-  createObjectLocalStorage();
+  if(checkInput() == false){
+    return
+  }
 
-})
+  if(localStorageProduct.length === 0){
+    alert ("Please select a product")
+    return
+  }
+
+  const body = requestBody();
+
+  fetch("http://localhost:3000/api/products/order", {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      "Content-Type" : "application/json",
+    }
+  })
+
+  .then((res) => res.json())
+
+  .then((data) => {
+    const orderId = data.orderId
+    window.location.href = "/front/html/confirmation.html" + "?orderId=" + orderId
+    return console.log(data)
+  })
+    
+  .catch((error) => console.log(error))
+}
+
+function requestBody(){
+  const firstNameInput = document.querySelector('#firstName')
+  const firstName = firstNameInput.value
+
+  const lastNameInput = document.querySelector('#lastName')
+  const lastName = lastNameInput.value
+
+  const addressInput = document.querySelector('#address')
+  const address = addressInput.value
+
+  const cityInput = document.querySelector('#city')
+  const city = cityInput.value
+
+  const emailInput = document.querySelector('#email')
+  const email = emailInput.value
+
+  let idProducts  = [];
+  for (let i = 0; i < localStorageProduct.length; i++) {
+    idProducts.push(localStorageProduct[i].idDuProduit)
+  }
+
+  console.log(idProducts)
+
+  const body = { 
+    contact: {
+    firstName: firstName,
+    lastName: lastName,
+    address: address,
+    city: city,
+    email: email
+  },
+  products : idProducts,
+  }
+  return body
+
+  
+}
