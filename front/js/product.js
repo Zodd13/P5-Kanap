@@ -1,19 +1,23 @@
-
-// déclaration fonction async + const itemId qui retourne les différentes ID
+// Fonction asynchrone qui permet d'ajouter un objet au panier dans le local storage.
 
 (async function () {
+    // Récupère l'ID de l'objet.
     const itemId = getItemId();
+    // Récupère l'objet via méthode GET avec son ID pour paramètre.
     const item = await getItem(itemId);
+    // Fonction showItems, qui affiche l'objet prends pour paramètre Item qui correspond à l'objet et son ID.
     showItems(item);
+    // Récupère le bouton "addToCart".
     const targetButton = document.getElementById('addToCart');
+    // Récupère l'input 'quantity'.
     const targetQuantity = document.getElementById('quantity');
 
-    // Ajout du listener sur le bouton "Confirmer" afin de sauvegarder les données de l'utilisateur dans le local storage
+    // Listener sur le clique, du bouton "addToCart", récupère les différentes données des produits.
 
     targetButton.addEventListener('click', (event) =>{
         event.preventDefault();
 
-        // Les données de l'objet JS sont stockées dans la constante itemProduct
+        // Les données de l'objet JS sont stockées dans la constante itemProduct.
 
         const itemProduct = {
             textAlternatif : item.altTxt,
@@ -26,8 +30,8 @@
             nombreDeProduit : targetQuantity.value,
         };
 
-        // La variable localStorageProduct va stockées les key et les values du local storage
-        // JSON.parse permet de traduire les données du local storage en objet JS (initialement en JSON)
+        // La variable localStorageProduct va stockées les key et les values du local storage. On utilise parse pour transformer en JSON.
+        // La méthode JSON.parse() analyse une chaîne de caractères JSON et construit la valeur JavaScript ou l'objet décrit par cette chaîne.
 
         let localStorageProduct = JSON.parse(localStorage.getItem("product"));
 
@@ -42,15 +46,15 @@
             }
         }
 
-        
-        // Fonction storageProduct ajoute l'objet séléctionner dans le local storage
+        // Fonction storageProduct va envoyer les données contenu dans la constante itemProduct dans le localStorage.
         const storageProduct = () =>{
-            // push les données dans le tableau
+            // On envoi les données dans itemProduct, puis on les ajoute au localStorage.
             localStorageProduct.push(itemProduct)
-            // localStorage.setItem transforme en objet JS et envoi les données dans la key Product du localStorage
+            // La méthode setItem permet d'ajouter dans le local storage un objet contenant un duo clé - valeur.
+            // JSON.stringify permet de convertir une valeur JavaScript en chaine JSON.
             localStorage.setItem("product", JSON.stringify(localStorageProduct));
         }
-
+        // Si OK alors on va au panier, sinon retourne à l'index.
         if(localStorageProduct){
             storageProduct()
             cartConfirm()
@@ -62,10 +66,11 @@
     })
 })();
 
+// fonction permettant  de récupérer l'id du produit dans l'URL.
 function getItemId() {
     return new URL(location.href).searchParams.get("id")  
 }
-
+// Fonction récupère l'ID de l'objet dans l'api.
 function getItem(itemId){
     return fetch(`http://localhost:3000/api/products/${itemId}`)
     .then(function(httpBodyResponse) {

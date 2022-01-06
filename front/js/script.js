@@ -2,7 +2,8 @@
 
 main ()
 
-// Fonction async main () contient la promesse et la boucle pour afficher les produits sur la page d'accueil
+// Fonction asynchrone main(), récupère la réponse de  la fonction getProducts dans la const products, puis lance  une boucle pour afficher
+// les produits dans la page d'acceuil.
 
 async function main() {
     const products = await getProducts()
@@ -11,7 +12,7 @@ async function main() {
     }
 }
 
-// la fonction getProducts récupère les données depuis l'api grâce à un fetch
+// Fetch de l'API avec une méthode GET pour récupérer les données de l'API dans la fonction getProducts ();
 
 function getProducts() {
     return fetch("http://localhost:3000/api/products")
@@ -28,7 +29,8 @@ function getProducts() {
         })
 }
 
-// fonction showProduct affiche le html sur la page d'accueil
+// La fonction showProduct(), affiche les données sous forme de html.
+
 function showProduct(){
     document.getElementById('items').innerHTML += `
     <a href="./product.html?id=${product._id}">
