@@ -1,6 +1,6 @@
 // Fonction asynchrone qui permet d'ajouter un objet au panier dans le local storage.
 
-(async function () {
+(async function addProductInCart() {
     // Récupère l'ID de l'objet.
     const itemId = getItemId();
     // Récupère l'objet via méthode GET avec son ID pour paramètre.

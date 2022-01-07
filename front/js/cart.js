@@ -210,7 +210,7 @@ function submitForm (e){
         return console.log(data)
       })
       // On catch si il y a une erreur.
-      .catch((error) => console.log(error))
+      .catch((err) => alert ("Erreur  d'envoi du formulaire. Veuillez réessayer plus tard."))
     }
   }
   
