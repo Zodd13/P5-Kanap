@@ -10,7 +10,7 @@
     // Récupère le bouton "addToCart".
     const targetButton = document.getElementById('addToCart');
     // Récupère l'input 'quantity'.
-    const targetQuantity = document.getElementById('quantity');
+    const targetQuantity = document.querySelector('#quantity');
 
     // Listener sur le clique, du bouton "addToCart", récupère les différentes données des produits.
 
@@ -48,8 +48,18 @@
 
         // Fonction storageProduct va envoyer les données contenu dans la constante itemProduct dans le localStorage.
         const storageProduct = () =>{
+            let foundProduct = localStorageProduct.find(p => p.idDuProduit == itemProduct.idDuProduit && p.couleurDuProduit == itemProduct.couleurDuProduit)
+            // parseInt(optionsProduit.quantiteProduit) + parseInt(resultFind.quantiteProduit);
+            if(foundProduct != undefined){
+                let ajoutDeQuantite = 
+                parseInt(itemProduct.nombreDeProduit) + parseInt(foundProduct.nombreDeProduit)
+                foundProduct.nombreDeProduit = ajoutDeQuantite
+            }else{
+                itemProduct.nombreDeProduit = itemProduct.nombreDeProduit;
+                localStorageProduct.push(itemProduct)
+            }
             // On envoi les données dans itemProduct, puis on les ajoute au localStorage.
-            localStorageProduct.push(itemProduct)
+            
             // La méthode setItem permet d'ajouter dans le local storage un objet contenant un duo clé - valeur.
             // JSON.stringify permet de convertir une valeur JavaScript en chaine JSON.
             localStorage.setItem("product", JSON.stringify(localStorageProduct));
